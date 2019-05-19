@@ -11,6 +11,9 @@
 #define DEBUGFILE "/tmp/debugraster.txt"
 #endif
 
+#define FRAGMENT_HEIGHT 960
+#define NEWRASTER 1
+
 static inline int min(int a, int b) {
   if (a > b)
     return b;
@@ -440,7 +443,7 @@ int main(int argc, char *argv[]) {
     DebugPrintHeader ( &tHeader );
 
     if (!pRasterBuf) {
-      pRasterBuf = malloc(tHeader.cupsBytesPerLine * 24);
+      pRasterBuf = malloc(tHeader.cupsBytesPerLine * FRAGMENT_HEIGHT);
       if (!pRasterBuf) // hope it never goes here...
         EXITPRINT(EXIT_FAILURE)
     }
@@ -466,7 +469,7 @@ int main(int argc, char *argv[]) {
               iCurrentPage,
               (100 * (tHeader.cupsHeight - iRowsToPrint) / tHeader.cupsHeight));
 
-      int iBlockHeight = min(iRowsToPrint, 24);
+      int iBlockHeight = min(iRowsToPrint, FRAGMENT_HEIGHT);
 
       DEBUGPRINT("--------Processing block of %d, starting from %d lines",
                  iBlockHeight, tHeader.cupsHeight - iRowsToPrint);
